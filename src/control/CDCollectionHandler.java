@@ -17,6 +17,10 @@ public class CDCollectionHandler {
      */
     public CDCollectionHandler(int[] amounts){
         //TODO: 01 - Konstruktor fertigstellen.
+        allCDs = new CompactDisc[4][];
+        for (int i = 0; i < allCDs.length ; i++) {
+            allCDs[i] = new CompactDisc[amounts[i]];
+        }
 
     }
 
@@ -31,6 +35,10 @@ public class CDCollectionHandler {
      */
     public boolean addNewCD(int box, int place, String artist, String title){
         //TODO: 02 - Hinzufügen einer CD
+        if(allCDs[box][place] == null) {
+            allCDs[box][place] = new CompactDisc(artist, title);
+            return true;
+        }
         return false;
     }
 
@@ -42,9 +50,16 @@ public class CDCollectionHandler {
      * @return - Entweder ein String-Array mit "Künstler" - "Titel" oder mit "Empty" - "Empty".
      */
     public String[] getInfo(int box, int place){
-        String[] output = new String[2];
         //TODO: 03 - Informationen zu einer bestimmen CD
-        return output;
+        String[] output = new String[2];
+        if(allCDs[box][place] != null) {
+            output[0] = allCDs[box][place].getArtist();
+            output[1] = allCDs[box][place].getTitle();
+         } else{
+            output[0] = "Empty";
+            output[1] = "Empty";
+        }
+       return output;
     }
 
     /**
@@ -56,6 +71,10 @@ public class CDCollectionHandler {
      */
     public boolean releaseCD(int box, int place){
         //TODO: 04 - Entfernen einer bestimmten CD
+        if(allCDs[box][place] != null) {
+            allCDs[box][place] = null;
+            return true;
+        }
         return false;
     }
 
@@ -67,7 +86,12 @@ public class CDCollectionHandler {
      */
     public String[] getAllCDsFrom(int box){
         //TODO: 05 - Vollständige Informationsausgabe aller CDs - Nach Fertigstellung im MainPanelHandler Zeile 165-167 entkommentieren
-        return null;
+        String[] output = new String[allCDs[box].length];
+        for (int i = 0; i < output.length; i+=2) {
+            output[i] = getInfo(box,i)[0];
+            output[i+1] = getInfo(box,i)[1];
+        }
+        return output;
     }
 
     /**
